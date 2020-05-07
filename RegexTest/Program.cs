@@ -12,6 +12,15 @@ namespace RegexTest
     {
         static void Main(string[] args)
         {
+            //parseXML();
+
+            getVersion();
+
+            Console.ReadKey();
+        }
+
+        public static void parseXML()
+        {
             StreamReader reader = new StreamReader(@".\OFXFile.txt");
             var ticaXml = reader.ReadToEnd();
 
@@ -26,8 +35,23 @@ namespace RegexTest
             string result = regex.Replace(input, substitution);
 
             Console.Write(result);
+        }
 
-            Console.ReadKey();
+        public static void getVersion()
+        {
+            StreamReader reader = new StreamReader(@".\OFXFile.txt");
+            var ticaXml = reader.ReadToEnd();
+
+            string pattern = @"VERSION:(.*[0-9A-Z-]*[^\s\n])";
+
+            string input = ticaXml;
+            RegexOptions options = RegexOptions.Multiline;
+
+            Regex regex = new Regex(pattern, options);
+
+            var result = regex.Match(input);
+
+            Console.WriteLine(result.Result("$1"));
         }
     }
 }
